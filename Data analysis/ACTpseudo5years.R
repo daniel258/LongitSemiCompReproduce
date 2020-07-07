@@ -12,15 +12,14 @@ set.seed(17)
 rm(list = ls())
 
 library(xtable)
-library(Daniel)
+library(dplyr)
 library(ggplot2)
 library(LongitSemiComp)
 
+setwd("Data analysis/")
+
 ACTpseudo <- read.table("ACTpseudo.csv")
 
-ACTpseudo$EnrollAge %>% hist
-ACTpseudo$T1 %>% hist
-ACTpseudo$T2 %>% hist
 ########################################################################################################
 ##### Change the data to longitudinal data with time-frame of 5 years #####
 inter.vec <- seq(65, 100, 5)

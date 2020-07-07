@@ -12,11 +12,11 @@ set.seed(17)
 rm(list = ls())
 
 library(xtable)
-library(Daniel)
+library(dplyr)
 library(ggplot2)
 library(LongitSemiComp)
 
-setwd("/Users/danielnevo/Dropbox/LongitSemiComp/Reproducibility/")
+setwd("Data analysis/")
 
 ACTpseudo <- read.table("ACTpseudo.csv")
 
