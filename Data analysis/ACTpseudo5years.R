@@ -4,7 +4,7 @@
 # "Modeling semi-competing risks data as a longitudinal bivariate process"
 # By Nevo et al.
 # for interval length of 5 years
-# NOTE: This psuedo data set sole use it to demonstrate how was the ACT data analyzed
+# NOTE: This psuedo data set sole use is to demonstrate how was the ACT data analyzed
 # The results obtained from analyzing this dataset are not the same as those reported in the paper
 # for the ACT data
 ########################################################################################################
