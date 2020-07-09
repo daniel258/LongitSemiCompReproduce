@@ -1,5 +1,5 @@
 ########################################################################################
-# Figure A.2 panel (a)
+# Figure A.3 all three panels
 ########################################################################################
 rm(list = ls())
 library(reshape2)
@@ -69,7 +69,7 @@ df.plot.baseline$lambda.f <- factor(df.plot.baseline$lambda, levels = sort(uniqu
 my.colors = gg_color_hue(6)
 
 
-
+## Panel (a)
 df.plot.baseline %>% filter(type.f=="Non-terminal baseline \n probability") %>% 
   filter(substr(Method,1,1) %in% c("B") & n.knots > 0) %>% 
   ggplot(aes(x = time, y = value, color = lambda.f, shape = lambda.f)) + 
@@ -90,48 +90,48 @@ df.plot.baseline %>% filter(type.f=="Non-terminal baseline \n probability") %>%
                                 "lambda = 25" = my.colors[6]),
                      breaks=c("True baseline","lambda = 0", "lambda = 0.1", "lambda = 1", "lambda = 5",
                                 "lambda = 10", "lambda = 25"))
-
-  df.plot.baseline %>% filter(type.f=="Terminal baseline \n probability") %>% 
-    filter(substr(Method,1,1) %in% c("B") & n.knots > 0) %>% 
-    ggplot(aes(x = time, y = value, color = lambda.f, shape = lambda.f)) + 
-    facet_grid(n.sample.f~n.knots.f, scales = "free") + 
-    theme_bw() + geom_point(size = 2, shape = 19) + 
-    ylab("Terminal baseline probability") + xlab("Age")  +
-    theme(text = element_text(size = 24),  
-          legend.title=element_blank(),
-          legend.text = element_text(size = 20),
-          strip.text = element_text(size = 24),
-          legend.key.size =  unit(1, "cm"),
-          legend.key.height = unit(0.5,"cm")) +
-    geom_point(data=filter(df.true,type=="Terminal baseline \n probability"), 
-               aes(x = time,y = value, color = "True baseline"), size = 3 , shape = 19) + 
-    scale_color_manual(values = c("True baseline" = "black", "lambda = 0" = my.colors[1],
-                                  "lambda = 0.1" = my.colors[2], "lambda = 1" = my.colors[3],
-                                  "lambda = 5" = my.colors[4], "lambda = 10"=  my.colors[5],
-                                  "lambda = 25" = my.colors[6]),
-                       breaks=c("True baseline","lambda = 0", "lambda = 0.1", "lambda = 1", "lambda = 5",
-                                "lambda = 10", "lambda = 25")) + 
-    scale_shape_manual(breaks=c("True baseline", "lambda = 0", "lambda = 0.1", "lambda = 1", "lambda = 5",
-                                "lambda = 10", "lambda = 25"), 
-                       values = c(19, rep(19, 6)))
-  
-  df.plot.baseline %>% filter(type.f=="Baseline OR" & value < 5) %>% 
-    filter(substr(Method, 1, 1) %in% c("B") & n.knots > 0) %>% 
-    ggplot(aes(x = time, y = value, color = lambda.f, shape = lambda.f)) + 
-    facet_grid(n.sample.f~n.knots.f, scales = "free") + 
-    theme_bw() + geom_point(size = 2, shape = 19) + 
-    ylab("OR") + xlab("Age")  +
-    theme(text = element_text(size = 24),  
-          legend.title=element_blank(),
-          legend.text = element_text(size = 20),
-          strip.text = element_text(size = 24),
-          legend.key.size =  unit(1, "cm"),
-          legend.key.height = unit(0.5,"cm")) +
-    geom_point(data = filter(df.true,type=="Baseline OR"), 
-               aes(x = time,y = value, color = "True baseline"), size = 3, shape = 19) + 
-    scale_color_manual(values = c("True baseline" = "black", "lambda = 0" = my.colors[1],
-                                  "lambda = 0.1" = my.colors[2], "lambda = 1" = my.colors[3],
-                                  "lambda = 5" = my.colors[4], "lambda = 10"=  my.colors[5],
-                                  "lambda = 25" = my.colors[6]),
-                       breaks=c("True baseline", "lambda = 0", "lambda = 0.1", "lambda = 1", "lambda = 5",
-                                "lambda = 10", "lambda = 25")) 
+## Panel (b)
+df.plot.baseline %>% filter(type.f=="Terminal baseline \n probability") %>% 
+  filter(substr(Method,1,1) %in% c("B") & n.knots > 0) %>% 
+  ggplot(aes(x = time, y = value, color = lambda.f, shape = lambda.f)) + 
+  facet_grid(n.sample.f~n.knots.f, scales = "free") + 
+  theme_bw() + geom_point(size = 2, shape = 19) + 
+  ylab("Terminal baseline probability") + xlab("Age")  +
+  theme(text = element_text(size = 24),  
+        legend.title=element_blank(),
+        legend.text = element_text(size = 20),
+        strip.text = element_text(size = 24),
+        legend.key.size =  unit(1, "cm"),
+        legend.key.height = unit(0.5,"cm")) +
+  geom_point(data=filter(df.true,type=="Terminal baseline \n probability"), 
+             aes(x = time,y = value, color = "True baseline"), size = 3 , shape = 19) + 
+  scale_color_manual(values = c("True baseline" = "black", "lambda = 0" = my.colors[1],
+                                "lambda = 0.1" = my.colors[2], "lambda = 1" = my.colors[3],
+                                "lambda = 5" = my.colors[4], "lambda = 10"=  my.colors[5],
+                                "lambda = 25" = my.colors[6]),
+                     breaks=c("True baseline","lambda = 0", "lambda = 0.1", "lambda = 1", "lambda = 5",
+                              "lambda = 10", "lambda = 25")) + 
+  scale_shape_manual(breaks=c("True baseline", "lambda = 0", "lambda = 0.1", "lambda = 1", "lambda = 5",
+                              "lambda = 10", "lambda = 25"), 
+                     values = c(19, rep(19, 6)))
+## Panel (c)
+df.plot.baseline %>% filter(type.f=="Baseline OR" & value < 5) %>% 
+  filter(substr(Method, 1, 1) %in% c("B") & n.knots > 0) %>% 
+  ggplot(aes(x = time, y = value, color = lambda.f, shape = lambda.f)) + 
+  facet_grid(n.sample.f~n.knots.f, scales = "free") + 
+  theme_bw() + geom_point(size = 2, shape = 19) + 
+  ylab("OR") + xlab("Age")  +
+  theme(text = element_text(size = 24),  
+        legend.title=element_blank(),
+        legend.text = element_text(size = 20),
+        strip.text = element_text(size = 24),
+        legend.key.size =  unit(1, "cm"),
+        legend.key.height = unit(0.5,"cm")) +
+  geom_point(data = filter(df.true,type=="Baseline OR"), 
+             aes(x = time,y = value, color = "True baseline"), size = 3, shape = 19) + 
+  scale_color_manual(values = c("True baseline" = "black", "lambda = 0" = my.colors[1],
+                                "lambda = 0.1" = my.colors[2], "lambda = 1" = my.colors[3],
+                                "lambda = 5" = my.colors[4], "lambda = 10"=  my.colors[5],
+                                "lambda = 25" = my.colors[6]),
+                     breaks=c("True baseline", "lambda = 0", "lambda = 0.1", "lambda = 1", "lambda = 5",
+                              "lambda = 10", "lambda = 25")) 
