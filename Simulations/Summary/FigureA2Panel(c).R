@@ -1,10 +1,13 @@
 ########################################################################################
-# Figure A.2 panel (b)
+# Figure A.2 panel (c)
 ########################################################################################
 rm(list = ls())
+library(ggplot2)
+library(dplyr)
 
-read.csv2(file = "Simulations/Summary/ResScen3.csv")
+df <- read.csv(file = "Simulations/Combined/ResScen3.csv",header = T)
 df <- df %>% filter(censoring==2) # keep only the high censoring rate
+
 
 ###### Summarize function estimation #####
 df.baselines <- df %>% dplyr::select(n.sample, Method, Penal, n.knots, lambda, starts_with("base."))
@@ -13,6 +16,15 @@ df.long <- melt(df.baselines.means, id.vars=c("n.sample", "Method", "Penal", "n.
 df.long$time <- rep(rep(65 + 2.5*(1:14), each = 39),3) 
 df.long$type <- rep(c("Non-terminal baseline \n probability", "Terminal baseline \n probability", 
                       "Baseline OR"), each = nrow(df.long)/3)
+
+#### True values ####
+# Number of intervals
+times <- seq(1,14,1)
+alpha.nt <- LongitSemiComp:::logit(times*0.005  + 0.005*(times-2)^2 - (0.0002*(times + 1)^3) + 0.005)
+alpha.t <- LongitSemiComp:::logit(times*0.0075  + 0.001*(times^2)  + 0.03)
+alpha.or <- 0.9 + 0.175*times - 0.02*times^2 
+alpha.or[times >= 13] <- 0
+
 df.true.nt <- data.frame(time = 65 + 2.5*(1:14), value = expit(alpha.nt))
 df.true.t <- data.frame(time = 65 + 2.5*(1:14), value = expit(alpha.t))
 df.true.or <- data.frame(time = 65 + 2.5*(1:14), value = exp(alpha.or))
@@ -34,11 +46,11 @@ df.plot.baseline$type.f = factor(df.plot.baseline$type, levels=c("Non-terminal b
                                                                  "Terminal baseline \n probability",
                                                                  "Baseline OR"))
 
-#################### Figure A.2, Panel (b)####################
+#################### Figure A.2, Panel (c)####################
 df.plot.baseline %>% filter(value < 5) %>% 
   ggplot(aes(x = time, y = value, color = Group, shape = Group, size = Group)) + 
   facet_grid(type.f ~ N, scales = "free") + 
-  theme_bw() + geom_point()  +  #scale_colour_grey(start = 0, end = .75)  + 
+  theme_bw() + geom_point(size = 2)  +  #scale_colour_grey(start = 0, end = .75)  + 
   ylab("Probability/OR") + xlab("Age")  +
   theme(text = element_text(size = 20),  
         legend.title=element_blank(),
