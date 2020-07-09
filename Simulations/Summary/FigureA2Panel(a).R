@@ -5,6 +5,7 @@ library(ggplot2)
 library(dplyr)
 rm(list = ls())
 
+##### Load data
 df <- read.csv(file = "Simulations/Combined/ResScen1.csv",header = T)
 df <- df %>% filter(censoring==2) # keep only the high censoring rate
 
